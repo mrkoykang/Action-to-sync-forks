@@ -1,0 +1,25 @@
+on:
+  schedule:
+    - cron: '0 0 * * *' # Run daily at midnight
+
+jobs:
+  sync-forks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: List forks
+        run: gh pr list --state OPEN
+      - name: Sync forks
+        run: |
+          for repo in $(gh pr list --state OPEN | awk '{print $2}'); do
+            gh pr view $repo --json
+            upstream_repo=$(jq -r '.base_repository.name' <(gh pr view $repo --json))
+            gh repo clone $upstream_repo
+            cd $upstream_repo
+            git remote add upstream https://github.com/$upstream_repo
+            git fetch upstream
+            git merge upstream/master
+            git push origin master
+            cd ..
+            rm -rf $upstream_repo
+          done
