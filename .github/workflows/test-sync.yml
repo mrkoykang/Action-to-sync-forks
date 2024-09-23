@@ -11,8 +11,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Configure GitHub authentication
-        env:
-          GH_TOKEN: ${{ github.token }}
+        run: |
+          env:
+            GH_TOKEN: ${{ github.token }}
       - name: List forks
         run: gh pr list --state OPEN
       - name: Sync forks
