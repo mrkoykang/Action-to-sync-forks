@@ -8,9 +8,11 @@ jobs:
   sync-forks:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3.4  # Updated action version
+      - uses: actions/checkout@v4
       - name: List forks
         run: gh pr list --state OPEN
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Sync forks
         run: |
           for repo in $(gh pr list --state OPEN | awk '{print $2}'); do
