@@ -1,4 +1,4 @@
-name: Sync Forks
+name: Test Sync
 
 on:
   #schedule:
@@ -9,7 +9,10 @@ jobs:
   sync-forks:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4  # Updated version
+      - uses: actions/checkout@v4  # Updated action version
+      - name: Configure GitHub authentication
+        run: |
+          echo "::set-output name=GH_TOKEN::${{ secrets.GITHUB_TOKEN }}"
       - name: List forks
         run: gh pr list --state OPEN
       - name: Sync forks
