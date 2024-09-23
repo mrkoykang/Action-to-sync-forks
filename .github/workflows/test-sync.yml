@@ -27,4 +27,4 @@ jobs:
             rm -rf $upstream_repo
           done
       - name: Set output
-        run: echo "forked_repos=${{ steps.sync_forks.outputs.forked_repos }}" >> $GITHUB_OUTPUT
+        run: echo "forked_repos=${{ secrets.GITHUB_TOKEN }}" >> $GITHUB_OUTPUT
