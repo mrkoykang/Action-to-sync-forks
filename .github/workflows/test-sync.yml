@@ -10,6 +10,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Configure GitHub authentication
+        run: |
+          echo "forked_repos=${{ secrets.GITHUB_TOKEN }}" >> $GITHUB_OUTPUT	
       - name: List forks
         run: gh pr list --state OPEN
       - name: Sync forks
@@ -26,5 +29,3 @@ jobs:
             cd ..
             rm -rf $upstream_repo
           done
-      - name: Set output
-        run: echo "forked_repos=${{ secrets.GITHUB_TOKEN }}" >> $GITHUB_OUTPUT
