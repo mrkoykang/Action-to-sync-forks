@@ -3,6 +3,7 @@ Name: Sync Forks
 on:
   schedule:
     - cron: '0 0 * * *' # Run daily at midnight
+    workflow_dispatch: # Enable manual triggering	
 
 jobs:
   sync-forks:
